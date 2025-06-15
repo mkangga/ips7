@@ -26,6 +26,10 @@
             padding: 0;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             line-height: 1.7;
@@ -59,10 +63,9 @@
         nav {
             background-color: var(--white-color);
             padding: 0.5rem;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            /* Menghapus 'position: sticky' agar navigasi tidak menutupi konten */
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-bottom: 1px solid var(--light-gray);
         }
 
         nav ul {
@@ -666,7 +669,18 @@
                 const targetSection = document.getElementById(targetId);
                 const targetBtn = document.querySelector(`.nav-btn[data-target="${targetId}"]`);
                 
-                if (targetSection) targetSection.classList.add('active');
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                    // Scroll to top of the content section
+                    // We target the main element to scroll within it
+                    const mainElement = document.querySelector('main');
+                    // Calculate position relative to viewport, then add current scroll to get absolute position
+                    const topPos = targetSection.getBoundingClientRect().top + window.pageYOffset - (document.querySelector('nav').offsetHeight + document.querySelector('header').offsetHeight);
+                    window.scrollTo({
+                        top: topPos, 
+                        behavior: 'smooth'
+                    });
+                }
                 if (targetBtn) targetBtn.classList.add('active');
                 
                 if (isQuiz) {
@@ -690,7 +704,12 @@
             });
 
             // Set default view to Tema 1
-            showSection('tema-1');
+            const initialTargetId = 'tema-1';
+            const initialSection = document.getElementById(initialTargetId);
+            const initialBtn = document.querySelector(`.nav-btn[data-target="${initialTargetId}"]`);
+            if(initialSection) initialSection.classList.add('active');
+            if(initialBtn) initialBtn.classList.add('active');
+
 
             // --- Kuis Interaktif Logic ---
 
