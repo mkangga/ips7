@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembelajaran Interaktif IPS Kelas 7</title>
+    <style>
+        /* General Styling */
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;600;700&display=swap');
+
+        :root {
+            --primary-color: #3A86FF;
+            --secondary-color: #61A5FF;
+            --background-color: #f4f7fc;
+            --text-color: #343a40;
+            --light-gray: #e9ecef;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --white-color: #ffffff;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.7;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            overflow: hidden;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white-color);
+            padding: 1.5rem 0;
+            text-align: center;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        nav {
+            background-color: var(--white-color);
+            padding: 0.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        nav ul li button {
+            color: var(--primary-color);
+            background: var(--white-color);
+            border: 2px solid var(--light-gray);
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li button:hover, nav ul li button.active {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Main Content Styling */
+        main {
+            padding: 2rem 0;
+        }
+
+        .content-section {
+            display: none;
+            background: var(--white-color);
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-section.active {
+            display: block;
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 3px solid var(--secondary-color);
+            text-align: center;
+        }
+
+        .content-section h3 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-left: 1rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .content-section p, .content-section ul, .content-section ol {
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+
+        blockquote {
+            background: #e9f5ff;
+            border-left: 5px solid var(--secondary-color);
+            margin: 1.5rem 0;
+            padding: 1.2rem;
+            font-style: italic;
+            border-radius: 8px;
+        }
+        
+        .contoh-soal {
+            background-color: #f8f9fa;
+            border: 1px dashed var(--secondary-color);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 8px;
+        }
+        .contoh-soal h4 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        .contoh-soal .pembahasan {
+            background-color: #e6ffed;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        /* Kuis Interaktif Styling */
+        #quiz-container {
+            background: var(--white-color);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        #question-counter {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+        }
+        
+        #question {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        #options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .option-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--light-gray);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .option-btn:hover:not(:disabled) {
+            background-color: var(--secondary-color);
+            color: var(--white-color);
+            border-color: var(--primary-color);
+            transform: scale(1.02);
+        }
+
+        .option-btn.correct {
+            background-color: var(--success-color);
+            color: var(--white-color);
+            border-color: #1e7e34;
+        }
+
+        .option-btn.incorrect {
+            background-color: var(--danger-color);
+            color: var(--white-color);
+            border-color: #b21f2d;
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.9;
+        }
+
+        #essay-answer {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-bottom: 1rem;
+            min-height: 120px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #feedback {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        #feedback.correct-feedback {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        #feedback.incorrect-feedback {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        #feedback h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        #next-btn {
+            display: block;
+            margin: 2rem auto 0;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: none;
+            box-shadow: 0 4px 10px rgba(58, 134, 255, 0.4);
+        }
+
+        #next-btn:hover {
+            background-color: #006ae6;
+            transform: translateY(-2px);
+        }
+
+        #quiz-results {
+            text-align: center;
+        }
+
+        #quiz-results h2 {
+            margin-bottom: 1rem;
+        }
+        
+        #quiz-results p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            background: var(--white-color);
+            margin-top: 2rem;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav ul li button {
+                width: 100%;
+                text-align: center;
+            }
+            .content-section {
+                padding: 1.5rem;
+            }
+            .content-section h2 {
+                font-size: 1.6rem;
+            }
+            #question {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Ilmu Pengetahuan Sosial - Kelas 7</h1>
+            <p>Materi Pembelajaran Interaktif Kurikulum Merdeka</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><button class="nav-btn active" data-target="tema-1">Tema 1: Keluarga & Lingkungan</button></li>
+                <li><button class="nav-btn" data-target="tema-2">Tema 2: Keberagaman Lingkungan</button></li>
+                <li><button class="nav-btn" data-target="tema-3">Tema 3: Potensi Ekonomi</button></li>
+                <li><button class="nav-btn" data-target="tema-4">Tema 4: Pemberdayaan Masyarakat</button></li>
+                <li><button class="nav-btn" data-target="kuis">Kuis Akhir</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Materi Tema 1 -->
+        <section id="tema-1" class="content-section active">
+            <h2>Tema 1: Kehidupan Sosial dan Kondisi Lingkungan Sekitar</h2>
+            
+            <h3>A. Mengenal Lokasi Tempat Tinggal</h3>
+            <p><strong>Pengantar:</strong> Memahami lokasi adalah kunci pertama dalam mempelajari geografi. Setiap tempat di bumi memiliki alamat uniknya yang dapat ditentukan secara pasti maupun relatif.</p>
+            <p><strong>Penjelasan:</strong> Lokasi dibagi menjadi dua jenis utama:</p>
+            <ul>
+                <li><strong>Lokasi Absolut:</strong> Letak suatu tempat yang bersifat tetap dan ditentukan oleh sistem koordinat garis lintang (latitude) dan garis bujur (longitude). Misalnya, letak astronomis Indonesia adalah 6°LU - 11°LS dan 95°BT - 141°BT. Lokasi ini tidak akan berubah dan menjadi acuan global.</li>
+                <li><strong>Lokasi Relatif:</strong> Letak suatu tempat yang dilihat dari daerah lain di sekitarnya. Lokasi ini bersifat dinamis dan nilainya bisa berubah-ubah tergantung konteks. Misalnya, "Rumah saya berada di dekat pusat perbelanjaan," nilai lokasi ini tinggi secara ekonomi, namun bisa jadi kurang bernilai bagi orang yang mencari ketenangan.</li>
+            </ul>
+            <p><strong>Contoh:</strong> Kenaikan harga tanah di sekitar Ibu Kota Negara (IKN) baru adalah contoh pengaruh lokasi relatif. Karena lokasinya menjadi strategis sebagai pusat pemerintahan masa depan, nilai ekonominya pun meningkat drastis.</p>
+            <p><strong>Rangkuman:</strong> Lokasi absolut bersifat pasti berdasarkan koordinat geografis, sedangkan lokasi relatif bergantung pada konteks, nilai, dan hubungan dengan lingkungan sekitarnya.</p>
+            <div class="contoh-soal">
+                <h4>Contoh Soal</h4>
+                <p>Seorang pilot menggunakan sistem navigasi yang menunjukkan koordinat 6°10′ LS dan 106°49′ BT untuk mendaratkan pesawat di Bandara Soekarno-Hatta. Jenis lokasi yang digunakan oleh pilot tersebut adalah...</p>
+                <div class="pembahasan">
+                    <strong>Pembahasan:</strong> Jawabannya adalah <strong>lokasi absolut</strong>. Penggunaan koordinat garis lintang (LS) dan garis bujur (BT) adalah ciri khas dari penentuan lokasi absolut yang presisi, universal, dan tidak berubah.
+                </div>
+            </div>
+
+            <h3>B. Konektivitas Antarruang dan Waktu</h3>
+            <p><strong>Pengantar:</strong> Tidak ada wilayah di dunia yang bisa memenuhi semua kebutuhannya sendiri. Oleh karena itu, terjadilah hubungan atau konektivitas antarruang untuk saling melengkapi.</p>
+            <p><strong>Penjelasan:</strong> Menurut Edward Ullman, ada tiga faktor utama yang mendasari terjadinya interaksi antarwilayah:</p>
+            <ol>
+                <li><strong>Saling Melengkapi (Regional Complementarity):</strong> Terjadi ketika wilayah A memiliki surplus sumber daya X tetapi kekurangan sumber daya Y, sementara wilayah B sebaliknya. Mereka akan saling berinteraksi untuk menutupi kekurangan masing-masing.</li>
+                <li><strong>Kesempatan Antara (Intervening Opportunity):</strong> Interaksi kuat antara wilayah A dan B bisa melemah jika muncul wilayah C yang dapat menyediakan kebutuhan yang sama dengan lebih mudah, lebih dekat, atau lebih murah.</li>
+                <li><strong>Kemudahan Transfer (Spatial Transfer Ability):</strong> Interaksi sangat dipengaruhi oleh kemudahan transportasi, biaya, dan jarak. Jika biaya transfer terlalu mahal atau aksesnya sulit, interaksi tidak akan terjadi meskipun ada kebutuhan yang saling melengkapi.</li>
+            </ol>
+            <p><strong>Contoh:</strong> Wilayah pegunungan (penghasil sayur) berinteraksi dengan wilayah pesisir (penghasil ikan). Mereka saling bertukar komoditas untuk memenuhi kebutuhan pangan masing-masing. Interaksi ini akan semakin kuat jika didukung jalan raya yang bagus dan biaya transportasi yang murah.</p>
+            <p><strong>Rangkuman:</strong> Interaksi antarruang didorong oleh perbedaan potensi dan kebutuhan, dihambat oleh adanya alternatif lain, serta dimungkinkan oleh adanya akses transportasi yang memadai.</p>
+
+            <h3>C. Perubahan Iklim dan Dampaknya</h3>
+            <p><strong>Pengantar:</strong> Cuaca yang kita rasakan sehari-hari adalah bagian dari sistem yang lebih besar yang disebut iklim, dan saat ini iklim bumi sedang mengalami perubahan yang signifikan akibat aktivitas manusia.</p>
+            <p><strong>Penjelasan:</strong></p>
+            <ul>
+                <li><strong>Cuaca:</strong> Kondisi atmosfer di suatu tempat pada waktu yang singkat (jam, hari). Contoh: "Siang ini cuaca di Bandung mendung."</li>
+                <li><strong>Iklim:</strong> Pola cuaca rata-rata di suatu wilayah dalam jangka waktu yang panjang (misalnya 30 tahun). Contoh: "Indonesia memiliki iklim tropis yang panas dan lembap."</li>
+            </ul>
+            <p>Perubahan iklim adalah perubahan signifikan pada pola iklim global dalam jangka waktu yang lama. Penyebab utamanya adalah pemanasan global, yaitu peningkatan suhu rata-rata bumi akibat penumpukan gas rumah kaca (seperti CO2 dari pembakaran bahan bakar fosil) di atmosfer. Dampaknya sangat luas, mulai dari cuaca ekstrem (banjir, kekeringan), naiknya permukaan air laut, hingga krisis pangan dan kesehatan.</p>
+            <p><strong>Contoh:</strong> Gagal panen yang dialami petani karena musim kemarau yang terlalu panjang atau musim hujan yang tidak menentu adalah dampak nyata dari perubahan iklim terhadap sektor pertanian.</p>
+            <p><strong>Rangkuman:</strong> Perubahan iklim adalah pergeseran pola cuaca jangka panjang yang disebabkan oleh pemanasan global, yang berdampak serius pada berbagai aspek kehidupan manusia dan keseimbangan ekosistem.</p>
+            
+            <h3>D. Potensi dan Bencana Alam di Indonesia</h3>
+            <p><strong>Pengantar:</strong> Posisi geologis Indonesia yang unik, yaitu di pertemuan tiga lempeng tektonik besar, memberikannya dua sisi mata uang: potensi sumber daya alam yang melimpah sekaligus kerawanan bencana alam.</p>
+            <p><strong>Penjelasan:</strong> Indonesia terletak di pertemuan lempeng Eurasia, Indo-Australia, dan Pasifik. Posisi ini menyebabkan:</p>
+            <ul>
+                <li><strong>Dampak Positif (Potensi):</strong>
+                    <ul>
+                        <li>Tanah vulkanik yang sangat subur, ideal untuk pertanian.</li>
+                        <li>Kekayaan bahan tambang dan mineral (emas, nikel, minyak bumi, gas alam).</li>
+                        <li>Keanekaragaman hayati yang termasuk tiga besar di dunia.</li>
+                    </ul>
+                </li>
+                <li><strong>Dampak Negatif (Bencana):</strong>
+                    <ul>
+                        <li>Sering terjadi gempa bumi tektonik.</li>
+                        <li>Potensi tsunami jika gempa besar terjadi di dasar laut.</li>
+                        <li>Banyaknya gunung api aktif yang bisa meletus (erupsi).</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><strong>Contoh:</strong> Abu vulkanik dari letusan gunung berapi dapat merusak pemukiman dan lahan pertanian dalam jangka pendek. Namun, dalam jangka panjang, abu tersebut akan lapuk dan membuat tanah di sekitarnya menjadi sangat subur.</p>
+            <p><strong>Rangkuman:</strong> Letak geologis Indonesia menjadikannya negara yang kaya sumber daya alam namun juga rawan bencana, sehingga mitigasi atau upaya pengurangan risiko bencana menjadi sangat penting.</p>
+
+            <h3>E. Kegiatan Ekonomi</h3>
+             <p><strong>Pengantar:</strong> Setiap hari, manusia melakukan kegiatan ekonomi untuk memenuhi kebutuhan hidupnya yang tidak terbatas dengan sumber daya yang terbatas. Ini adalah masalah inti ekonomi.</p>
+            <p><strong>Penjelasan:</strong> Kegiatan ekonomi utama ada tiga:</p>
+            <ol>
+                <li><strong>Produksi:</strong> Kegiatan menciptakan atau menambah nilai guna suatu barang/jasa. Pelakunya disebut produsen. Contoh: petani menanam padi, pabrik membuat pakaian, guru mengajar.</li>
+                <li><strong>Distribusi:</strong> Kegiatan menyalurkan barang/jasa dari produsen ke konsumen. Pelakunya disebut distributor. Contoh: agen, pedagang grosir, kurir pengantar paket, toko kelontong.</li>
+                <li><strong>Konsumsi:</strong> Kegiatan menghabiskan atau mengurangi nilai guna suatu barang/jasa untuk memenuhi kebutuhan. Pelakunya disebut konsumen. Contoh: makan nasi, memakai baju, menggunakan jasa transportasi.</li>
+            </ol>
+            <p><strong>Rangkuman:</strong> Produksi (membuat), distribusi (menyalurkan), dan konsumsi (menggunakan) adalah tiga pilar kegiatan ekonomi yang saling terkait dan membentuk roda perekonomian.</p>
+
+            <h3>F. Interaksi Sosial</h3>
+            <p><strong>Pengantar:</strong> Sebagai makhluk sosial, manusia tidak bisa hidup tanpa berhubungan dengan orang lain. Hubungan timbal balik yang dinamis antar individu, individu dengan kelompok, atau antar kelompok ini disebut interaksi sosial.</p>
+            <p><strong>Penjelasan:</strong> Syarat terjadinya interaksi sosial adalah adanya <strong>kontak sosial</strong> (hubungan awal, bisa fisik atau melalui media) dan <strong>komunikasi</strong> (proses penyampaian dan penerimaan pesan). Bentuk interaksi sosial ada dua:</p>
+            <ul>
+                <li><strong>Asosiatif (Mengarah pada persatuan dan kerja sama):</strong>
+                    <ul>
+                        <li><strong>Kerja sama:</strong> Usaha bersama untuk mencapai tujuan bersama.</li>
+                        <li><strong>Akomodasi:</strong> Upaya menyelesaikan konflik, contohnya melalui mediasi.</li>
+                        <li><strong>Akulturasi:</strong> Percampuran dua budaya tanpa menghilangkan ciri khas budaya asli.</li>
+                        <li><strong>Asimilasi:</strong> Peleburan dua budaya yang menghasilkan budaya baru.</li>
+                    </ul>
+                </li>
+                <li><strong>Disosiatif (Mengarah pada perpecahan atau pertentangan):</strong>
+                    <ul>
+                        <li><strong>Persaingan (Kompetisi):</strong> Proses sosial di mana individu atau kelompok berlomba meraih tujuan tertentu tanpa menggunakan kekerasan.</li>
+                        <li><strong>Kontravensi:</strong> Sikap tidak suka yang tersembunyi, berada antara persaingan dan konflik.</li>
+                        <li><strong>Pertentangan (Konflik):</strong> Proses sosial di mana individu atau kelompok berusaha menyingkirkan pihak lain, seringkali dengan ancaman atau kekerasan untuk mencapai tujuannya.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><strong>Rangkuman:</strong> Interaksi sosial dapat membangun hubungan (asosiatif) atau merusak hubungan (disosiatif), yang keduanya merupakan bagian dari dinamika kehidupan masyarakat.</p>
+
+        </section>
+
+        <!-- Materi Tema 2 -->
+        <section id="tema-2" class="content-section">
+            <h2>Tema 2: Keberagaman Lingkungan Sekitar</h2>
+            
+            <h3>A. Kerusakan Lingkungan dan Dinamika Sosial</h3>
+            <p><strong>Pengantar:</strong> Lingkungan kita terdiri dari komponen alam dan sosial yang saling mempengaruhi. Aktivitas manusia seringkali menjadi penyebab utama kerusakan lingkungan alam, yang pada gilirannya akan mempengaruhi dinamika sosial masyarakat.</p>
+            <p><strong>Penjelasan:</strong></p>
+            <ul>
+                <li><strong>Kerusakan Lingkungan Akibat Manusia:</strong> Aktivitas manusia seringkali menimbulkan pencemaran yang merusak keseimbangan alam:
+                    <ul>
+                        <li><strong>Pencemaran Udara:</strong> Disebabkan oleh asap kendaraan, industri, dan pembakaran sampah. Dampaknya adalah pemanasan global, hujan asam, dan gangguan pernapasan.</li>
+                        <li><strong>Pencemaran Air:</strong> Disebabkan oleh limbah industri, limbah rumah tangga (deterjen), dan sampah plastik. Dampaknya adalah merusak ekosistem air, membunuh biota air, dan mengurangi ketersediaan air bersih.</li>
+                        <li><strong>Pencemaran Tanah:</strong> Disebabkan oleh pembuangan sampah sembarangan, penggunaan pestisida kimia berlebihan, dan limbah berbahaya. Dampaknya membuat tanah tidak subur dan beracun.</li>
+                    </ul>
+                </li>
+                <li><strong>Dinamika Sosial sebagai Respon:</strong> Kerusakan lingkungan dapat memicu perubahan sosial. Misalnya, bencana banjir akibat penggundulan hutan dapat menyebabkan penduduk mengungsi dan mengubah pola permukiman mereka. Selain itu, dinamika sosial juga berarti perubahan nilai, norma, dan struktur dalam masyarakat dari waktu ke waktu, contohnya pergeseran dari masyarakat agraris ke industri.</li>
+            </ul>
+            <p><strong>Rangkuman:</strong> Interaksi manusia dengan alam dapat berdampak negatif berupa pencemaran. Kerusakan ini dapat memicu perubahan dalam struktur dan kehidupan sosial masyarakat.</p>
+
+            <h3>B. Upaya Pelestarian Lingkungan</h3>
+            <p><strong>Pengantar:</strong> Kerusakan lingkungan yang semakin parah menuntut kita untuk mengubah perilaku dan membiasakan diri hidup selaras dengan alam demi keberlanjutan.</p>
+            <p><strong>Penjelasan:</strong> Upaya pelestarian dapat dimulai dari kebiasaan sederhana dalam kehidupan sehari-hari yang dikenal dengan prinsip 3R:</p>
+            <ul>
+                <li><strong>Reduce (Mengurangi):</strong> Mengurangi penggunaan barang-barang sekali pakai, seperti kantong plastik dan botol minum plastik. Menghemat penggunaan air dan listrik.</li>
+                <li><strong>Reuse (Menggunakan Kembali):</strong> Menggunakan kembali barang-barang yang masih bisa dipakai, seperti menggunakan botol bekas sebagai pot tanaman atau tas belanja kain berulang kali.</li>
+                <li><strong>Recycle (Mendaur Ulang):</strong> Mengolah kembali sampah menjadi produk baru. Ini biasanya dilakukan dengan memilah sampah organik, anorganik (plastik, kertas, logam), dan B3 (Bahan Berbahaya dan Beracun) seperti baterai.</li>
+            </ul>
+            <p><strong>Rangkuman:</strong> Pelestarian lingkungan adalah tanggung jawab bersama yang dimulai dari kesadaran dan kebiasaan baik setiap individu untuk mengurangi, menggunakan kembali, dan mendaur ulang.</p>
+            <div class="contoh-soal">
+                <h4>Contoh Soal</h4>
+                <p>Pemerintah kota menggalakkan program "Car Free Day" setiap hari Minggu di jalan-jalan utama. Upaya ini merupakan salah satu bentuk pelestarian lingkungan yang berfokus untuk mengurangi...</p>
+                <div class="pembahasan">
+                    <strong>Pembahasan:</strong> Jawabannya adalah <strong>pencemaran udara</strong>. Dengan melarang kendaraan bermotor pada hari tersebut, emisi gas buang dari kendaraan dapat dikurangi secara signifikan. Ini adalah contoh penerapan prinsip *reduce* (mengurangi) penggunaan kendaraan pribadi.
+                </div>
+            </div>
+
+            <h3>C. Kehidupan Manusia pada Masa Praaksara</h3>
+            <p><strong>Pengantar:</strong> Jauh sebelum tulisan ditemukan, manusia telah melalui perjalanan evolusi kebudayaan yang sangat panjang, dari kehidupan yang sangat sederhana hingga mampu menciptakan peradaban.</p>
+            <p><strong>Penjelasan:</strong> Pembabakan zaman praaksara secara arkeologis (berdasarkan peninggalan alat-alat):</p>
+            <ol>
+                <li><strong>Paleolitikum (Zaman Batu Tua):</strong> Manusia hidup berpindah-pindah (nomaden), sepenuhnya bergantung pada alam dengan berburu dan meramu makanan (*food gathering*). Alat-alat batu masih sangat kasar (contoh: kapak perimbas).</li>
+                <li><strong>Mesolitikum (Zaman Batu Tengah):</strong> Mulai ada usaha untuk menetap sementara di gua-gua (<em>abris sous roche</em>). Meninggalkan jejak berupa tumpukan sampah dapur dari kulit kerang (<em>kjokkenmoddinger</em>). Alat-alat mulai sedikit lebih halus.</li>
+                <li><strong>Neolitikum (Zaman Batu Muda):</strong> Terjadi revolusi kebudayaan. Manusia mulai hidup menetap (*sedenter*), bercocok tanam dan beternak (*food producing*). Alat-alat batu sudah diasah sangat halus (contoh: kapak lonjong, beliung persegi) dan mulai mengenal gerabah.</li>
+                <li><strong>Zaman Logam (Perundagian):</strong> Manusia sudah ahli membuat peralatan dari logam (perunggu dan besi) dengan teknik peleburan (<em>bivalve</em> dan <em>a cire perdue</em>). Muncul golongan tukang atau ahli (undagi) yang terampil. Kehidupan sosial semakin kompleks.</li>
+            </ol>
+            <p><strong>Rangkuman:</strong> Kehidupan manusia praaksara berevolusi dari sangat bergantung pada alam (nomaden & food gathering) menjadi mampu mengendalikan alam dengan menetap, bercocok tanam, dan menciptakan teknologi yang semakin maju (sedenter & food producing).</p>
+
+        </section>
+
+        <!-- Materi Tema 3 -->
+        <section id="tema-3" class="content-section">
+            <h2>Tema 3: Potensi Ekonomi Lingkungan</h2>
+            
+            <h3>A. Pemanfaatan Sumber Daya Alam (SDA)</h3>
+            <p><strong>Pengantar:</strong> Indonesia dianugerahi SDA yang luar biasa, mulai dari hutan, tambang, hingga laut. Pemanfaatannya harus dilakukan secara bijaksana dan berkelanjutan agar tidak merusak lingkungan dan tetap tersedia bagi generasi mendatang.</p>
+            <p><strong>Penjelasan:</strong></p>
+            <ul>
+                <li><strong>Sumber Daya Hutan:</strong> Dibagi menjadi hutan produksi (untuk diambil hasilnya seperti kayu dan rotan), hutan lindung (untuk menjaga tata air, mencegah erosi, dan sebagai paru-paru dunia), dan hutan konservasi (cagar alam, suaka margasatwa, taman nasional untuk melindungi keanekaragaman hayati).</li>
+                <li><strong>Sumber Daya Tambang:</strong> Digolongkan menjadi Golongan A (strategis dan vital bagi negara, dikelola negara, misal minyak bumi, gas alam, nikel), Golongan B (vital bagi hajat hidup orang banyak, misal emas, perak), dan Golongan C (untuk industri, bisa dikelola masyarakat, misal pasir, batu, gamping).</li>
+                <li><strong>Sumber Daya Kemaritiman:</strong> Sebagai negara kepulauan, potensi laut Indonesia sangat besar. Meliputi perikanan tangkap dan budidaya, energi terbarukan (arus laut, gelombang), dan wisata bahari (menyelam, snorkeling, pantai).</li>
+            </ul>
+            <p><strong>Rangkuman:</strong> Pemanfaatan SDA harus berprinsip pada pembangunan berkelanjutan, yaitu memenuhi kebutuhan saat ini tanpa mengorbankan kemampuan generasi mendatang untuk memenuhi kebutuhannya.</p>
+
+            <h3>B. Pelaku Ekonomi, Pasar, dan Harga</h3>
+            <p><strong>Pengantar:</strong> Roda ekonomi digerakkan oleh berbagai pelaku yang saling berinteraksi di dalam sebuah mekanisme yang disebut pasar, di mana harga menjadi penentu utamanya.</p>
+            <p><strong>Penjelasan:</strong></p>
+            <ul>
+                <li><strong>Pelaku Ekonomi:</strong> Ada 4 pelaku utama:
+                    <ol>
+                        <li><strong>Rumah Tangga Konsumen (RTK):</strong> Pihak yang mengonsumsi barang/jasa dan sebagai pemilik faktor produksi (tenaga kerja, modal, tanah).</li>
+                        <li><strong>Rumah Tangga Produsen (RTP)/Perusahaan:</strong> Pihak yang memproduksi barang/jasa dengan menggunakan faktor produksi.</li>
+                        <li><strong>Pemerintah:</strong> Berperan sebagai regulator (pembuat aturan), konsumen (belanja negara), dan produsen (melalui BUMN).</li>
+                        <li><strong>Masyarakat Luar Negeri:</strong> Berperan dalam kegiatan ekspor dan impor.</li>
+                    </ol>
+                </li>
+                <li><strong>Pasar:</strong> Tempat (bisa fisik atau virtual) bertemunya permintaan (dari pembeli) dan penawaran (dari penjual) untuk bertransaksi. Fungsi pasar adalah sebagai sarana distribusi, pembentuk harga, dan promosi.</li>
+                <li><strong>Harga:</strong> Nilai tukar suatu barang/jasa yang dinyatakan dengan uang. <strong>Harga Keseimbangan (Harga Pasar)</strong> terbentuk ketika jumlah barang yang diminta sama dengan jumlah barang yang ditawarkan, atau terjadi kesepakatan harga melalui proses tawar-menawar.</li>
+            </ul>
+            <p><strong>Rangkuman:</strong> Pelaku ekonomi berinteraksi di pasar untuk melakukan kegiatan jual beli, di mana harga menjadi mekanisme utama yang mengatur alokasi sumber daya.</p>
+            <div class="contoh-soal">
+                <h4>Contoh Soal</h4>
+                <p>Saat musim durian, harga durian di pasar cenderung turun. Sebaliknya, menjelang hari raya Idul Fitri, harga daging sapi cenderung naik. Fenomena ini menunjukkan bahwa harga sangat dipengaruhi oleh...</p>
+                <div class="pembahasan">
+                    <strong>Pembahasan:</strong> Jawabannya adalah <strong>permintaan (demand) dan penawaran (supply)</strong>. Saat musim durian, penawaran melimpah sehingga harga turun. Menjelang lebaran, permintaan daging sapi meningkat tajam, sehingga harga naik. Ini adalah hukum dasar dalam ekonomi.
+                </div>
+            </div>
+
+            <h3>C. Status dan Peran Sosial</h3>
+            <p><strong>Pengantar:</strong> Dalam struktur masyarakat, setiap individu menempati posisi tertentu dan menjalankan perilaku yang diharapkan sesuai dengan posisinya. Inilah yang disebut status dan peran sosial.</p>
+            <p><strong>Penjelasan:</strong></p>
+            <ul>
+                <li><strong>Status Sosial:</strong> Kedudukan atau posisi sosial seseorang dalam sebuah kelompok atau masyarakat. Ada 3 cara memperoleh status:
+                    <ul>
+                        <li><strong>Ascribed Status:</strong> Status yang diperoleh secara otomatis sejak lahir tanpa usaha. Contoh: anak seorang raja, jenis kelamin, suku bangsa.</li>
+                        <li><strong>Achieved Status:</strong> Status yang diperoleh melalui usaha, perjuangan, dan kemampuan pribadi. Contoh: menjadi dokter, guru, pengusaha sukses, juara kelas.</li>
+                        <li><strong>Assigned Status:</strong> Status yang diberikan oleh masyarakat atau kelompok sebagai penghargaan atas jasa-jasanya. Contoh: gelar pahlawan nasional, ketua RT.</li>
+                    </ul>
+                </li>
+                <li><strong>Peran Sosial:</strong> Pola perilaku atau tindakan yang diharapkan dari seseorang yang memiliki status sosial tertentu. Contoh: peran seorang dokter adalah mendiagnosis dan mengobati pasien. Peran seorang siswa adalah belajar dengan rajin. Terkadang terjadi <strong>konflik peran</strong>, yaitu ketegangan saat seseorang harus menjalankan dua peran atau lebih yang bertentangan secara bersamaan.</li>
+            </ul>
+            <p><strong>Rangkuman:</strong> Status adalah "siapa kita" (posisi), sedangkan peran adalah "apa yang kita lakukan" (perilaku) dalam posisi tersebut. Keduanya adalah elemen penting dalam struktur sosial.</p>
+        </section>
+
+        <!-- Materi Tema 4 -->
+        <section id="tema-4" class="content-section">
+            <h2>Tema 4: Pemberdayaan Masyarakat</h2>
+            
+            <h3>A. Keragaman Sosial Budaya sebagai Kekuatan</h3>
+            <p><strong>Pengantar:</strong> "Bhinneka Tunggal Ika" (Berbeda-beda tetapi tetap satu) adalah semboyan yang mencerminkan realitas bangsa Indonesia. Keragaman suku, agama, ras, dan budaya bukanlah kelemahan, melainkan kekayaan dan kekuatan bangsa.</p>
+            <p><strong>Penjelasan:</strong> Faktor utama penyebab keragaman budaya di Indonesia adalah <strong>kondisi geografis</strong>.</p>
+            <ol>
+                <li><strong>Bentuk Negara Kepulauan:</strong> Ribuan pulau yang terpisah oleh lautan menyebabkan masyarakat yang mendiaminya mengembangkan budayanya masing-masing secara terisolasi, sehingga menghasilkan budaya yang unik dan beragam.</li>
+                <li><strong>Letak Strategis:</strong> Indonesia berada di jalur persilangan perdagangan dunia sejak zaman dahulu. Hal ini menyebabkan masuknya berbagai pengaruh budaya asing (Hindu, Buddha, Islam, Tiongkok, Eropa) yang kemudian berinteraksi dan berakulturasi dengan budaya lokal, memperkaya khazanah budaya Indonesia.</li>
+            </ol>
+            <p>Unsur-unsur kebudayaan yang beragam ini meliputi bahasa, sistem pengetahuan, sistem kemasyarakatan, teknologi, mata pencaharian, sistem religi, dan kesenian.</p>
+            <p><strong>Rangkuman:</strong> Keragaman sosial budaya Indonesia yang luar biasa terbentuk oleh faktor geografis sebagai negara kepulauan dan posisi silang dunia, yang harus dijaga sebagai modal sosial untuk pembangunan.</p>
+
+            <h3>B. Literasi Keuangan untuk Pemberdayaan</h3>
+            <p><strong>Pengantar:</strong> Pemberdayaan masyarakat adalah upaya untuk membuat masyarakat menjadi mandiri dan berdaya. Salah satu kunci utama kemandirian di era modern adalah kemampuan mengelola keuangan atau yang disebut dengan literasi keuangan.</p>
+            <p><strong>Penjelasan:</strong></p>
+            <ul>
+                <li><strong>Literasi Keuangan:</strong> Pengetahuan dan keterampilan untuk mengelola sumber daya keuangan secara efektif demi mencapai kesejahteraan. Ini mencakup pemahaman tentang:
+                    <ul>
+                        <li><strong>Pendapatan & Pengeluaran:</strong> Mampu mencatat dan mengontrol arus kas.</li>
+                        <li><strong>Kebutuhan vs Keinginan:</strong> Mampu membedakan mana yang harus didahulukan (kebutuhan) dan mana yang bisa ditunda (keinginan).</li>
+                        <li><strong>Menabung:</strong> Menyisihkan sebagian pendapatan untuk tujuan masa depan atau dana darurat.</li>
+                        <li><strong>Berinvestasi:</strong> Menempatkan dana pada instrumen tertentu (saham, emas, reksa dana) dengan harapan mendapatkan keuntungan di masa depan.</li>
+                        <li><strong>Utang yang Sehat:</strong> Memahami kapan harus berutang dan mampu mengelolanya dengan baik (misal untuk modal usaha, bukan gaya hidup konsumtif).</li>
+                    </ul>
+                </li>
+                <li><strong>Pengelolaan Keuangan Sederhana:</strong> Langkah praktisnya meliputi: menyusun anggaran bulanan (budgeting), mencatat pengeluaran, menerapkan prinsip "Pay Yourself First" (menabung/investasi di awal setelah menerima pendapatan), dan menghindari utang konsumtif.</li>
+            </ul>
+            <p><strong>Rangkuman:</strong> Literasi keuangan adalah bekal esensial untuk individu dan masyarakat agar dapat membuat keputusan finansial yang bijak, terhindar dari masalah keuangan, dan mencapai kemandirian ekonomi.</p>
+            <div class="contoh-soal">
+                <h4>Contoh Soal</h4>
+                <p>Setiap bulan, setelah menerima gaji, Rina langsung mentransfer 20% dari gajinya ke rekening investasi reksa dana dan tidak mengganggunya untuk belanja sehari-hari. Tindakan Rina merupakan penerapan prinsip...</p>
+                <div class="pembahasan">
+                    <strong>Pembahasan:</strong> Jawabannya adalah <strong>Pay Yourself First (Bayar Diri Sendiri Dulu)</strong>. Ini adalah strategi pengelolaan keuangan yang sangat efektif, di mana menabung atau investasi diprioritaskan dan dilakukan di awal, sebelum uang digunakan untuk pengeluaran lain.
+                </div>
+            </div>
+            
+            <h3>C. Peran Komunitas dalam Pemberdayaan Masyarakat</h3>
+            <p><strong>Pengantar:</strong> Manusia sebagai makhluk sosial cenderung membentuk kelompok berdasarkan kesamaan minat, tujuan, atau identitas. Kelompok-kelompok ini, yang disebut komunitas, memiliki peran vital dalam kehidupan dan pemberdayaan masyarakat.</p>
+            <p><strong>Penjelasan:</strong> Komunitas adalah sekelompok orang yang terikat oleh nilai-nilai dan kepentingan bersama. Peran komunitas dalam pembangunan sangat penting, karena menjadi motor penggerak perubahan dari tingkat akar rumput (grassroots). Contohnya:</p>
+            <ul>
+                <li><strong>Komunitas Lingkungan:</strong> Mengorganisir kegiatan bank sampah, menanam pohon bersama, atau kampanye pengurangan plastik. Mereka memberdayakan masyarakat untuk peduli terhadap lingkungannya.</li>
+                <li><strong>Komunitas UMKM (Usaha Mikro, Kecil, dan Menengah):</strong> Saling berbagi ilmu pemasaran, manajemen, dan akses permodalan. Mereka memberdayakan anggotanya agar naik kelas secara ekonomi.</li>
+                <li><strong>Komunitas Literasi:</strong> Mendirikan taman bacaan masyarakat, mengadakan kelas belajar gratis untuk anak-anak jalanan. Mereka memberdayakan masyarakat melalui pendidikan.</li>
+                <li><strong>Karang Taruna:</strong> Wadah bagi pemuda di tingkat desa/kelurahan untuk mengembangkan potensi dan berkontribusi pada kegiatan sosial kemasyarakatan.</li>
+            </ul>
+            <p>Komunitas berperan sebagai agen perubahan yang membangun solidaritas sosial, menyebarkan informasi, dan mengorganisir tindakan kolektif untuk menyelesaikan masalah bersama dan mendorong pembangunan yang berkelanjutan.</p>
+            <p><strong>Rangkuman:</strong> Komunitas adalah motor penggerak penting dalam pemberdayaan masyarakat, karena mampu mengorganisir aksi kolektif dari bawah untuk menciptakan perubahan positif.</p>
+        </section>
+
+        <!-- Kuis Interaktif -->
+        <section id="kuis" class="content-section">
+            <div id="quiz-container">
+                <div id="quiz-start-screen">
+                    <h2>Kuis Akhir Pembelajaran</h2>
+                    <p>Uji pemahamanmu tentang materi IPS Kelas 7. Ada 25 soal yang mencakup semua tema.</p>
+                    <button id="start-quiz-btn">Mulai Kuis</button>
+                </div>
+                <div id="quiz-main-screen" style="display: none;">
+                    <div id="question-counter"></div>
+                    <p id="question"></p>
+                    <div id="options-container"></div>
+                    <textarea id="essay-answer" placeholder="Ketik jawaban singkatmu di sini..."></textarea>
+                    <div id="feedback">
+                        <h4>Pembahasan</h4>
+                        <p id="explanation"></p>
+                    </div>
+                    <button id="next-btn">Berikutnya</button>
+                    <div id="quiz-results"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Website Pembelajaran Interaktif IPS. Dibuat berdasarkan buku Kemendikbudristek.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navigation Logic
+            const navBtns = document.querySelectorAll('.nav-btn');
+            const contentSections = document.querySelectorAll('.content-section');
+            const startQuizBtn = document.getElementById('start-quiz-btn');
+            const quizStartScreen = document.getElementById('quiz-start-screen');
+            const quizMainScreen = document.getElementById('quiz-main-screen');
+
+            function showSection(targetId, isQuiz = false) {
+                contentSections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                navBtns.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                const targetSection = document.getElementById(targetId);
+                const targetBtn = document.querySelector(`.nav-btn[data-target="${targetId}"]`);
+                
+                if (targetSection) targetSection.classList.add('active');
+                if (targetBtn) targetBtn.classList.add('active');
+                
+                if (isQuiz) {
+                    quizStartScreen.style.display = 'block';
+                    quizMainScreen.style.display = 'none';
+                    resetQuiz();
+                }
+            }
+
+            navBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.getAttribute('data-target');
+                    showSection(targetId, targetId === 'kuis');
+                });
+            });
+            
+            startQuizBtn.addEventListener('click', () => {
+                quizStartScreen.style.display = 'none';
+                quizMainScreen.style.display = 'block';
+                startQuiz();
+            });
+
+            // Set default view to Tema 1
+            showSection('tema-1');
+
+            // --- Kuis Interaktif Logic ---
+
+            const quizData = [
+                // Tema 1
+                {
+                    type: 'mc',
+                    question: "Letak astronomis Indonesia yang berada di antara 6°LU - 11°LS dan 95°BT - 141°BT merupakan contoh dari konsep lokasi...",
+                    options: ["Relatif", "Strategis", "Absolut", "Ekonomis"],
+                    answer: "Absolut",
+                    explanation: "Lokasi absolut ditentukan oleh koordinat garis lintang dan bujur yang pasti dan tidak berubah, berbeda dengan lokasi relatif yang bergantung pada lingkungan sekitarnya."
+                },
+                {
+                    type: 'mc',
+                    question: "Suatu wilayah pesisir yang surplus ikan berinteraksi dengan wilayah pegunungan yang surplus sayuran. Faktor utama yang mendorong interaksi ini adalah...",
+                    options: ["Kemudahan Transfer", "Saling Melengkapi", "Kesempatan Antara", "Perbedaan Iklim"],
+                    answer: "Saling Melengkapi",
+                    explanation: "Interaksi terjadi karena kedua wilayah memiliki kelebihan dan kekurangan sumber daya yang berbeda, sehingga mereka saling membutuhkan untuk melengkapi kebutuhannya."
+                },
+                {
+                    type: 'mc',
+                    question: "Peningkatan suhu rata-rata bumi akibat penumpukan gas rumah kaca di atmosfer disebut...",
+                    options: ["Efek Rumah Kaca", "Perubahan Cuaca", "Pemanasan Global", "Siklus Hidrologi"],
+                    answer: "Pemanasan Global",
+                    explanation: "Pemanasan global adalah penyebab utama perubahan iklim, di mana panas matahari terperangkap oleh gas rumah kaca seperti CO2, sehingga suhu bumi meningkat."
+                },
+                {
+                    type: 'mc',
+                    question: "Kegiatan menyalurkan barang dari produsen ke konsumen, seperti yang dilakukan oleh toko kelontong dan kurir paket, disebut kegiatan...",
+                    options: ["Produksi", "Konsumsi", "Promosi", "Distribusi"],
+                    answer: "Distribusi",
+                    explanation: "Distribusi adalah kegiatan menyalurkan atau menyebarkan produk dari produsen agar sampai ke tangan konsumen."
+                },
+                {
+                    type: 'mc',
+                    question: "Pertandingan sepak bola antar sekolah untuk memperebutkan piala merupakan contoh bentuk interaksi sosial disosiatif berupa...",
+                    options: ["Konflik", "Kerja sama", "Persaingan (Kompetisi)", "Akomodasi"],
+                    answer: "Persaingan (Kompetisi)",
+                    explanation: "Persaingan adalah proses sosial di mana individu atau kelompok berlomba-lomba mencapai tujuan yang sama tanpa menggunakan kekerasan atau ancaman."
+                },
+                
+                // Tema 2
+                {
+                    type: 'mc',
+                    question: "Manusia mulai hidup menetap, bercocok tanam, dan menghasilkan peralatan dari batu yang sudah diasah halus. Ciri-ciri tersebut menandai kehidupan manusia pada zaman...",
+                    options: ["Paleolitikum", "Mesolitikum", "Neolitikum", "Megalitikum"],
+                    answer: "Neolitikum",
+                    explanation: "Zaman Neolitikum dikenal sebagai era revolusi kebudayaan, di mana manusia beralih dari 'food gathering' (berburu dan meramu) ke 'food producing' (bercocok tanam dan beternak) dan mulai hidup menetap."
+                },
+                {
+                    type: 'mc',
+                    question: "Pembuangan limbah deterjen dari rumah tangga ke sungai dapat menyebabkan pertumbuhan alga yang sangat cepat sehingga menutupi permukaan air. Fenomena ini merupakan contoh dari...",
+                    options: ["Pencemaran Udara", "Pencemaran Tanah", "Pencemaran Suara", "Pencemaran Air"],
+                    answer: "Pencemaran Air",
+                    explanation: "Limbah deterjen mengandung fosfat yang menyuburkan alga secara berlebihan (eutrofikasi), yang dapat merusak ekosistem perairan. Ini adalah bentuk pencemaran air."
+                },
+                {
+                    type: 'mc',
+                    question: "Mematikan lampu saat tidak digunakan dan membawa botol minum sendiri untuk mengurangi sampah plastik adalah contoh penerapan prinsip pelestarian lingkungan yaitu...",
+                    options: ["Recycle (Mendaur Ulang)", "Reduce (Mengurangi)", "Reuse (Menggunakan kembali)", "Replace (Mengganti)"],
+                    answer: "Reduce (Mengurangi)",
+                    explanation: "Reduce berarti mengurangi konsumsi atau penggunaan sesuatu untuk meminimalisir dampak lingkungan, seperti mengurangi penggunaan energi dan sampah."
+                },
+                {
+                    type: 'mc',
+                    question: "Perubahan sosial budaya dalam masyarakat yang berlangsung secara terus-menerus disebut...",
+                    options: ["Struktur Sosial", "Dinamika Sosial", "Status Sosial", "Konflik Sosial"],
+                    answer: "Dinamika Sosial",
+                    explanation: "Dinamika sosial adalah istilah yang menggambarkan segala bentuk perubahan yang terjadi dalam masyarakat, baik pada nilai, norma, maupun struktur sosialnya."
+                },
+                {
+                    type: 'mc',
+                    question: "Tumpukan sisa kulit kerang dan siput yang menjadi sampah dapur manusia praaksara yang tinggal di tepi pantai disebut...",
+                    options: ["Abris sous roche", "Pithecanthropus", "Kjokkenmoddinger", "Menhir"],
+                    answer: "Kjokkenmoddinger",
+                    explanation: "Kjokkenmoddinger (bahasa Denmark) secara harfiah berarti 'sampah dapur'. Ini adalah salah satu peninggalan khas dari zaman Mesolitikum."
+                },
+
+                // Tema 3
+                {
+                    type: 'mc',
+                    question: "Taman Nasional, Cagar Alam, dan Suaka Margasatwa adalah contoh dari jenis hutan...",
+                    options: ["Hutan Produksi", "Hutan Lindung", "Hutan Konservasi", "Hutan Adat"],
+                    answer: "Hutan Konservasi",
+                    explanation: "Hutan konservasi memiliki fungsi utama untuk pengawetan keanekaragaman tumbuhan dan satwa serta ekosistemnya."
+                },
+                {
+                    type: 'mc',
+                    question: "Pak Budi bekerja sebagai guru di sekolah. Dalam kegiatan ekonomi, Pak Budi berperan sebagai bagian dari...",
+                    options: ["Rumah Tangga Produsen (RTP)", "Masyarakat Luar Negeri", "Rumah Tangga Pemerintah", "Rumah Tangga Konsumen (RTK)"],
+                    answer: "Rumah Tangga Konsumen (RTK)",
+                    explanation: "Sebagai individu, Pak Budi adalah konsumen yang membeli barang kebutuhan. Sekaligus, ia adalah pemilik faktor produksi tenaga kerja (jasa mengajar) yang ditawarkan kepada RTP (sekolah)."
+                },
+                {
+                    type: 'mc',
+                    question: "Harga keseimbangan atau harga pasar terbentuk ketika...",
+                    options: ["Penjual menetapkan harga tertinggi", "Jumlah barang yang diminta sama dengan jumlah yang ditawarkan", "Pemerintah menetapkan harga", "Pembeli menawar dengan harga terendah"],
+                    answer: "Jumlah barang yang diminta sama dengan jumlah yang ditawarkan",
+                    explanation: "Harga keseimbangan adalah titik temu antara kurva permintaan dan penawaran, di mana terjadi kesepakatan harga dan kuantitas antara penjual dan pembeli."
+                },
+                {
+                    type: 'mc',
+                    question: "Seseorang yang menjadi dokter karena menempuh pendidikan kedokteran selama bertahun-tahun, berarti ia memperoleh status sosialnya melalui cara...",
+                    options: ["Ascribed status (diwariskan)", "Assigned status (diberikan)", "Achieved status (diusahakan)", "Conflict status (konflik)"],
+                    answer: "Achieved status (diusahakan)",
+                    explanation: "Achieved status adalah status yang diperoleh dari hasil usaha, kerja keras, dan kemampuan individu, bukan didapat sejak lahir."
+                },
+                {
+                    type: 'mc',
+                    question: "Kondisi di mana jumlah penduduk usia produktif (15-64 tahun) lebih besar daripada penduduk usia non-produktif disebut...",
+                    options: ["Ledakan Penduduk", "Bonus Demografi", "Urbanisasi", "Transmigrasi"],
+                    answer: "Bonus Demografi",
+                    explanation: "Bonus demografi adalah peluang ekonomi yang muncul ketika populasi usia kerja mendominasi, berpotensi mendorong pertumbuhan ekonomi jika kualitas SDM-nya baik."
+                },
+
+                // Tema 4
+                {
+                    type: 'mc',
+                    question: "Faktor utama yang menyebabkan tingginya keragaman suku dan budaya di Indonesia adalah...",
+                    options: ["Perbedaan tingkat ekonomi", "Kondisi geografis sebagai negara kepulauan", "Sistem pemerintahan yang berbeda", "Jenis mata pencaharian yang sama"],
+                    answer: "Kondisi geografis sebagai negara kepulauan",
+                    explanation: "Bentuk kepulauan menyebabkan isolasi geografis, sehingga nenek moyang yang tersebar di berbagai pulau mengembangkan budayanya sendiri-sendiri secara unik."
+                },
+                {
+                    type: 'mc',
+                    question: "Pengetahuan dan keterampilan untuk mengelola sumber daya keuangan secara efektif demi mencapai kesejahteraan disebut...",
+                    options: ["Manajemen Bisnis", "Akuntansi", "Literasi Keuangan", "Perbankan"],
+                    answer: "Literasi Keuangan",
+                    explanation: "Literasi keuangan mencakup kemampuan membuat anggaran, menabung, berinvestasi, dan membuat keputusan finansial yang bijak."
+                },
+                {
+                    type: 'mc',
+                    question: "Berikut ini yang merupakan contoh peran komunitas dalam pemberdayaan masyarakat adalah...",
+                    options: ["Sebuah perusahaan besar membuka pabrik baru", "Pemerintah menaikkan pajak", "Karang Taruna mengadakan pelatihan membuat kerajinan dari sampah daur ulang", "Seorang turis asing berlibur di Bali"],
+                    answer: "Karang Taruna mengadakan pelatihan membuat kerajinan dari sampah daur ulang",
+                    explanation: "Pemberdayaan oleh komunitas adalah aksi kolektif dari bawah untuk meningkatkan keterampilan dan kemandirian masyarakat, seperti pelatihan oleh Karang Taruna."
+                },
+                {
+                    type: 'mc',
+                    question: "Membedakan antara apa yang harus dipenuhi (seperti makanan dan tempat tinggal) dengan apa yang hanya bersifat tambahan (seperti gadget terbaru) adalah inti dari konsep...",
+                    options: ["Investasi vs Tabungan", "Produksi vs Konsumsi", "Kebutuhan vs Keinginan", "Ekspor vs Impor"],
+                    answer: "Kebutuhan vs Keinginan",
+                    explanation: "Memahami perbedaan ini adalah dasar dari pengelolaan keuangan yang sehat. Kebutuhan bersifat wajib, sedangkan keinginan bisa ditunda."
+                },
+                {
+                    type: 'mc',
+                    question: "Tokoh pahlawan wanita yang merupakan seorang laksamana dari Kerajaan Aceh dan memimpin armada Inong Balee adalah...",
+                    options: ["R.A. Kartini", "Cut Nyak Dien", "Dewi Sartika", "Laksamana Malahayati"],
+                    answer: "Laksamana Malahayati",
+                    explanation: "Laksamana Keumalahayati (Malahayati) adalah pahlawan nasional dari Aceh yang terkenal sebagai laksamana wanita pertama di dunia modern."
+                },
+
+                // Soal Essay
+                {
+                    type: 'essay',
+                    question: "Jelaskan dengan singkat perbedaan utama antara interaksi sosial asosiatif dan disosiatif, serta berikan masing-masing satu contoh!",
+                    explanation: "Interaksi sosial asosiatif adalah bentuk interaksi yang mengarah pada persatuan dan kerja sama (contoh: gotong royong). Sedangkan interaksi disosiatif adalah bentuk interaksi yang mengarah pada perpecahan atau pertentangan (contoh: konflik atau tawuran)."
+                },
+                {
+                    type: 'essay',
+                    question: "Sebutkan 3 pilar pembangunan berkelanjutan yang harus diperhatikan dalam memanfaatkan sumber daya alam!",
+                    explanation: "Tiga pilar utama pembangunan berkelanjutan adalah pilar Ekonomi (pemanfaatan harus menguntungkan), pilar Sosial (harus menyejahterakan masyarakat), dan pilar Lingkungan (tidak boleh merusak kelestarian alam untuk generasi mendatang)."
+                },
+                {
+                    type: 'essay',
+                    question: "Apa perbedaan mendasar antara 'achieved status' dan 'ascribed status' dalam masyarakat? Berikan contohnya!",
+                    explanation: "Perbedaan utamanya adalah cara memperolehnya. Ascribed status diperoleh sejak lahir tanpa usaha (contoh: menjadi anak bangsawan, suku Jawa). Achieved status diperoleh melalui usaha dan kerja keras (contoh: menjadi seorang guru, dokter, atau atlet)."
+                },
+                {
+                    type: 'essay',
+                    question: "Mengapa literasi keuangan dianggap penting untuk pemberdayaan masyarakat?",
+                    explanation: "Literasi keuangan penting karena membekali masyarakat dengan pengetahuan dan keterampilan untuk mengelola uang secara bijak. Dengan begitu, masyarakat bisa terhindar dari utang, mampu menabung dan berinvestasi untuk masa depan, dan pada akhirnya mencapai kemandirian serta kesejahteraan ekonomi."
+                },
+                {
+                    type: 'essay',
+                    question: "Jelaskan secara singkat apa itu 'Bonus Demografi' dan mengapa ini bisa menjadi peluang besar bagi Indonesia!",
+                    explanation: "Bonus demografi adalah kondisi di mana jumlah penduduk usia produktif (usia kerja) lebih besar daripada jumlah penduduk usia non-produktif (anak-anak dan lansia). Ini menjadi peluang besar karena angkatan kerja yang melimpah dapat mendorong produktivitas dan pertumbuhan ekonomi negara, asalkan kualitas sumber daya manusianya (pendidikan dan kesehatan) juga baik."
+                }
+            ];
+
+            let currentQuestionIndex = 0;
+            let score = 0;
+
+            const questionCounterEl = document.getElementById('question-counter');
+            const questionEl = document.getElementById('question');
+            const optionsContainerEl = document.getElementById('options-container');
+            const essayAnswerEl = document.getElementById('essay-answer');
+            const feedbackEl = document.getElementById('feedback');
+            const explanationEl = document.getElementById('explanation');
+            const nextBtn = document.getElementById('next-btn');
+            const quizResultsEl = document.getElementById('quiz-results');
+
+            function startQuiz() {
+                currentQuestionIndex = 0;
+                score = 0;
+                quizResultsEl.innerHTML = '';
+                nextBtn.innerHTML = 'Berikutnya';
+                showQuestion();
+            }
+
+            function resetQuiz() {
+                quizResultsEl.innerHTML = '';
+                nextBtn.style.display = 'none';
+                feedbackEl.style.display = 'none';
+            }
+
+            function showQuestion() {
+                feedbackEl.style.display = 'none';
+                nextBtn.style.display = 'none';
+                optionsContainerEl.innerHTML = '';
+                
+                const currentQuestion = quizData[currentQuestionIndex];
+                questionCounterEl.textContent = `Soal ${currentQuestionIndex + 1} dari ${quizData.length}`;
+                questionEl.textContent = currentQuestion.question;
+
+                if (currentQuestion.type === 'mc') {
+                    essayAnswerEl.style.display = 'none';
+                    optionsContainerEl.style.display = 'flex';
+
+                    // Shuffle options
+                    const shuffledOptions = [...currentQuestion.options].sort(() => Math.random() - 0.5);
+
+                    shuffledOptions.forEach(option => {
+                        const button = document.createElement('button');
+                        button.textContent = option;
+                        button.classList.add('option-btn');
+                        button.addEventListener('click', () => selectAnswer(option, currentQuestion.answer, button));
+                        optionsContainerEl.appendChild(button);
+                    });
+                } else { // Essay
+                    optionsContainerEl.style.display = 'none';
+                    essayAnswerEl.style.display = 'block';
+                    essayAnswerEl.value = '';
+                    
+                    nextBtn.innerHTML = "Lihat Pembahasan";
+                    nextBtn.style.display = 'block';
+                    nextBtn.onclick = () => showEssayExplanation();
+                }
+            }
+            
+            function showEssayExplanation() {
+                const currentQuestion = quizData[currentQuestionIndex];
+                explanationEl.innerHTML = currentQuestion.explanation;
+                feedbackEl.style.display = 'block';
+                feedbackEl.className = 'correct-feedback'; // Default to correct style for essays
+                
+                nextBtn.innerHTML = 'Berikutnya';
+                nextBtn.onclick = () => {
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < quizData.length) {
+                        showQuestion();
+                    } else {
+                        showResults();
+                    }
+                };
+            }
+
+            function selectAnswer(selectedOption, correctAnswer, btn) {
+                const isCorrect = selectedOption === correctAnswer;
+
+                if (isCorrect) {
+                    score++;
+                    btn.classList.add('correct');
+                    feedbackEl.className = 'feedback correct-feedback';
+                } else {
+                    btn.classList.add('incorrect');
+                    feedbackEl.className = 'feedback incorrect-feedback';
+                    // Highlight the correct answer
+                    Array.from(optionsContainerEl.children).forEach(button => {
+                        if (button.textContent === correctAnswer) {
+                            button.classList.add('correct');
+                        }
+                    });
+                }
+                
+                explanationEl.innerHTML = quizData[currentQuestionIndex].explanation;
+                feedbackEl.style.display = 'block';
+
+                Array.from(optionsContainerEl.children).forEach(button => {
+                    button.disabled = true;
+                });
+                
+                nextBtn.innerHTML = 'Berikutnya';
+                nextBtn.onclick = () => {
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < quizData.length) {
+                        showQuestion();
+                    } else {
+                        showResults();
+                    }
+                };
+                nextBtn.style.display = 'block';
+            }
+
+            function showResults() {
+                questionCounterEl.textContent = '';
+                questionEl.textContent = '';
+                optionsContainerEl.innerHTML = '';
+                essayAnswerEl.style.display = 'none';
+                feedbackEl.style.display = 'none';
+                nextBtn.style.display = 'none';
+
+                const totalMC = quizData.filter(q => q.type === 'mc').length;
+                
+                quizResultsEl.innerHTML = `
+                    <h2>Kuis Selesai!</h2>
+                    <p>Skor Pilihan Ganda Anda: <strong>${score}</strong> dari <strong>${totalMC}</strong> soal.</p>
+                    <p>Jangan lupa untuk mereview kembali jawaban esai dan pembahasannya.</p>
+                    <button id="restart-quiz-btn">Ulangi Kuis</button>
+                `;
+                
+                document.getElementById('restart-quiz-btn').addEventListener('click', () => {
+                   quizResultsEl.innerHTML = '';
+                   startQuiz();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
